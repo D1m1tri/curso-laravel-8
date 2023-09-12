@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUpdatePost;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -20,13 +21,9 @@ class PostController extends Controller
         return view('admin.posts.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreUpdatePost $request)
     {
         // dd($request->all());
-        $request->validate([
-            'title' => 'required|min:3|max:255',
-            'content' => 'required|min:3',
-        ]);
 
         Post::create($request->all());
 

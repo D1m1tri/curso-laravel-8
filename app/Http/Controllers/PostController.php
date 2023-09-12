@@ -10,7 +10,7 @@ class PostController extends Controller {
 
     // INDEX
     public function index() {
-        $posts = Post::latest()->paginate();
+        $posts = Post::latest()->paginate(1);
         return view('admin.posts.index', [
             'posts' => $posts,
         ]);
@@ -73,5 +73,17 @@ class PostController extends Controller {
         return redirect()
             ->route('posts.index')
             ->with('message', 'Post updated successfully!');
+    }
+
+    // SEARCH
+    public function search(Request $request) {
+        $filters = $request->except('_token');
+        $posts = Post::where('title', 'LIKE', "%{$request->search}%")
+            ->orWhere('content', 'LIKE', "%{$request->search}%")
+            ->paginate(1);
+        return view('admin.posts.index', [
+            'posts' => $posts,
+            'filters' => $filters,
+        ]);
     }
 }

@@ -21,6 +21,9 @@ Route::get('/', function () {
 });
 
 
+Route::any('/posts/search', [
+    PostController::class, 'search'
+])->name('posts.search');
 
 Route::get('/posts', [
     PostController::class, 'index'
@@ -49,3 +52,4 @@ Route::get('/posts/{id}/edit', [
 Route::put('/posts/{id}', [
     PostController::class, 'update'
 ])->name('posts.update');
+

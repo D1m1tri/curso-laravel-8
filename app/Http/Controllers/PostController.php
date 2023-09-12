@@ -8,30 +8,34 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function index()
-    {
+    public function index() {
         $posts = Post::all();
         return view('admin.posts.index', [
             'posts' => $posts,
         ]);
     }
 
-    public function create()
-    {
+
+
+    public function create() {
         return view('admin.posts.create');
     }
 
-    public function store(StoreUpdatePost $request)
-    {
+
+
+    public function store(StoreUpdatePost $request) {
         // dd($request->all());
 
         Post::create($request->all());
 
-        return redirect()->route('posts.index');
+        return redirect()
+            ->route('posts.index')
+            ->with('message', 'Post created successfully!');
     }
 
-    public function show($id)
-    {
+
+
+    public function show($id) {
         // $post = Post::where('id', $id)->first();
         if (!$post = Post::find($id)) {
             return redirect()->route('posts.index');
@@ -42,8 +46,9 @@ class PostController extends Controller
         ]);
     }
 
-    public function destroy($id)
-    {
+
+
+    public function destroy($id) {
         if (!$post = Post::find($id)) {
             return redirect()->route('posts.index');
         }
@@ -53,5 +58,31 @@ class PostController extends Controller
         return redirect()
             ->route('posts.index')
             ->with('message', 'Post deleted successfully!');
+    }
+
+
+
+    public function edit($id) {
+        if (!$post = Post::find($id)) {
+            return redirect()->back();
+        }
+
+        return view('admin.posts.edit', [
+            'post' => $post,
+        ]);
+    }
+
+
+
+    public function update(StoreUpdatePost $request, $id) {
+        if (!$post = Post::find($id)) {
+            return redirect()->back();
+        }
+
+        $post->update($request->all());
+
+        return redirect()
+            ->route('posts.index')
+            ->with('message', 'Post updated successfully!');
     }
 }

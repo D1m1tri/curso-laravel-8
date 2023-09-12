@@ -1,3 +1,4 @@
+<a href="{{ route('posts.edit', $post->id) }}">Editar</a>
 <h1>Detalhes do Post {{ $post->title }}</h1>
 
 <ul>
@@ -5,7 +6,9 @@
     <li><strong>Conteúdo: </strong></br>{{ $post->content }}</li>
 </ul>
 
-    <form action="{{ route('posts.destroy', $post->id) }}" method="post">
+<hr>
+
+<form action="{{ route('posts.destroy', $post->id) }}" method="post">
     @csrf
     <input type="hidden" name="_method" value="DELETE">
 

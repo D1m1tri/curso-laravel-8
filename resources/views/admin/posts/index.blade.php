@@ -17,3 +17,7 @@
         </li>
     @endforeach
 </ul>
+
+<hr>
+
+{{ $posts->links() }}

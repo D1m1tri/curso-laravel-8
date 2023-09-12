@@ -14,4 +14,22 @@ class PostController extends Controller
             'posts' => $posts,
         ]);
     }
+
+    public function create()
+    {
+        return view('admin.posts.create');
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'title' => 'required|min:3|max:255',
+            'content' => 'required|min:3',
+        ]);
+
+        Post::create($request->all());
+
+        return redirect()->route('posts.index');
+    }
 }
